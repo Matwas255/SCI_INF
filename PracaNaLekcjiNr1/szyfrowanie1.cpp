@@ -8,40 +8,131 @@ using namespace std;
 string szyfrpodstawieniowy(string odp)
 {
 	int przes;
-	cout << "o ile chcesz przesunac litery? max to 26" << endl;
+	unsigned char mod;
+
+	string mod2;
+
+	cout << "o ile chcesz przesunac litery? max to 26: ";
 	cin >> przes;
-	for (int i = 0; i < odp.size(); i++)
+	cout << endl;
+
+	if (przes > 26)
+	{
+		cout << "zbyt duza wartosc" << endl;
+		
+		return odp;
+	}
+
+	cout << endl;
+	
+	for (int i = 0; i < odp.length(); i++)
 	{
 		if (odp[i] < 123 && odp[i] > 96)
 		{
-			odp[i] += przes;
-			cout << "odp ";
+			mod = odp[i] + przes;
+			
+			if (mod > 122)
+			{
+				mod = mod % 123 + 97;
+
+			}
+			mod2 += mod;
+		}
+		else
+		{
+			mod2 += odp[i];
 		}
 
 	}
-	return odp;
+	return mod2;
 }
+
+string szyfrprzestawieniowy(string odp2)
+{
+	cout << endl;
+	
+	for (int i = 0; i < odp2.length() - 1; i += 2)
+	{
+		swap(odp2[i], odp2[i + 1]);
+	}
+	return odp2;
+
+	
+}
+
+string odszyfrowywanie(string odp3)
+{
+	string jd = odp3;
+
+	for (int z = 1; z < 26; z++)
+	{
+		for (int i = 0; i < odp3.length(); i++)
+		{
+			if (odp3[i] > 96 && odp3[i] < 123)
+			{
+				odp3[i] -= z;
+				if (odp3[i] < 97)
+				{
+					odp3[i] = odp3[i] % 123 + 26;
+					
+				}
+
+				
+			}
+			
+			
+		}
+		cout << odp3 << endl;
+		odp3 = jd;
+	}
+	
+	return odp3;
+}
+
 
 int main()
 {
 	string odp;
 	int cyfra;
+	string szef3;
 
 	cout << "podaj ciag znakow malymi literami" << endl;
+	cout << endl;
 	getline(cin, odp);
+	cout << endl;
 
 	cout << "wybierz szyfr" << endl;
 	cout << "1. szyfr podstawieniowy" << endl;
 	cout << "2. szyfr przestawieniowy" << endl;
 	cout << "3. szyfr podstawieniowy i przestawieniowy" << endl;
 	cout << "4. odszyfruj tekst" << endl;
+	cout << endl;
 	cin >> cyfra;
 
 	
+	if (cyfra == 1)
+	{
+	  cout << "odpowiedz: " << szyfrpodstawieniowy(odp);
+	}
 	
-	cout << szyfrpodstawieniowy(odp);
+	if (cyfra == 2)
+	{
+		cout <<  "odpowiedz: " << szyfrprzestawieniowy(odp);
+	}
 
+	if (cyfra == 3)
+	{
+		szef3 = szyfrpodstawieniowy(odp);
+		szef3 = szyfrprzestawieniowy(szef3);
+		cout << "odpowiedz: " << szef3;
+	}
 
+	if (cyfra == 4) 
+	{
+
+		cout << odszyfrowywanie(odp);
+	}
+	
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
